@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController m_characterController;
-
+    public Camera[] Cameras;
     [Header("Player Health & Damage")]
     private int m_maxHealth = 100;
     public int CurrentHealth;
@@ -76,7 +76,8 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleRtotate()
     {
-        Quaternion _targetRotation = Camera.main.transform.rotation;
+        Camera _currentCamera = Cameras[0].gameObject.activeInHierarchy? Cameras[0]:Cameras[1];
+        Quaternion _targetRotation = _currentCamera.transform.rotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, RotateSpeed * Time.deltaTime);
     }
     private void GroundCheck()

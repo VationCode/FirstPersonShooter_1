@@ -4,9 +4,9 @@ using UnityEngine;
 public class ShootingController : MonoBehaviour
 {
     public Animator PlayerAnimator;
-    [Tooltip("Cam")]
+    public Camera[] Cameras;
     public Transform FirePoint;
-    public float FireRange = 25f;
+    public float FireRange = 100f;
     public float FireRate = 10f;
     private float m_nextFireTime = 0f;
 
@@ -97,7 +97,8 @@ public class ShootingController : MonoBehaviour
 
     private void CheckShootTarget()
     {
-        Ray _ray = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f));
+        Camera _currentCamera = Cameras[0].gameObject.activeInHierarchy ? Cameras[0] : Cameras[1];
+        Ray _ray = _currentCamera.ViewportPointToRay(new Vector3(0.5f,0.5f));
         RaycastHit _hit;
         if (Physics.Raycast(_ray, out _hit, FireRange))
         {
