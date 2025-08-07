@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ShootingController : MonoBehaviour
@@ -16,13 +17,28 @@ public class ShootingController : MonoBehaviour
     public float reloadTime = 1.5f;
     private bool m_isReloading = false;
 
-    public ParticleSystem MuzzleFlash;
+    [Header("Effect")]
+    //public ParticleSystem MuzzleFlash;
+    public Gun[] GunMuzzleFlashs;
+    public ParticleSystem BloodEffect;
+    public int DamagePerShot = 10;
+
+
+    [Header("Sound")]
+    public AudioSource SoundAudioSource;
+    public AudioClip ShootingSoundClip;
+    public AudioClip ReloadSoundClip;
+
+    public TextMeshProUGUI CurrentAmmoTMP;
     private void Start()
     {
         m_currentAmmo = MaxAmmo;
+        CurrentAmmoTMP.text = m_currentAmmo.ToString() + " / 30";
     }
     private void Update()
     {
+        CurrentAmmoTMP.text = m_currentAmmo.ToString() + " / 30";
+
         if (m_isReloading) return;
         Shoot();    //자동
         if (Input.GetKeyDown(KeyCode.R) && m_currentAmmo < MaxAmmo) Reload();
@@ -36,15 +52,35 @@ public class ShootingController : MonoBehaviour
 
         if (_getFire && Time.time >= m_nextFireTime)
         {
-            // Time.time이 m_nextFireTime까지 발사x 5초에 발사 m_nextFireTime =5.1f이기에 0.1f초뒤 가능
-            m_nextFireTime = Time.time + 1f / FireRate;
-            Debug.Log("Fire");
+            // Time.time이 m_nextFireTime까지 발사x 5초에 발사 m_nextFireTime = 5.1f이기에 0.1f초뒤 가능
+            int num1 = 0;
+            for (int i = 0; i < GunMuzzleFlashs.Length; i++)
+            {
+                if (!GunMuzzleFlashs[i].gameObject.activeSelf) continue;
+                num1 = i;
+            }
+
+            FireRate = GunMuzzleFlashs[num1].Rate;
+            m_nextFireTime = Time.time + FireRate;
+            
             if (m_currentAmmo > 0)
             {
                 CheckShootTarget();
-                MuzzleFlash.Play();
+                int num = 0;
+                for (int i = 0; i < GunMuzzleFlashs.Length; i++)
+                {
+                    if (!GunMuzzleFlashs[i].gameObject.activeSelf) continue;
+                    GunMuzzleFlashs[i].MuzzleFlash.Play();
+                    num = i;
+                }
+                if (GunMuzzleFlashs[num].GunTypeE == GunType.Sniper)
+                    PlayerAnimator.SetBool("Sniper", true);
+                else PlayerAnimator.SetBool("Sniper", false);
+
                 PlayerAnimator.SetBool("Shoot", true);
                 m_currentAmmo--;
+
+                SoundAudioSource.PlayOneShot(ShootingSoundClip);
             }
             else // 총알 없을 시 자동 재장전
             {
@@ -52,21 +88,43 @@ public class ShootingController : MonoBehaviour
                 Reload();
             }
         }
-        else
+        else if(!_getFire)
         {
+            PlayerAnimator.SetBool("Sniper", false);
             PlayerAnimator.SetBool("Shoot", false);
-
         }
     }
 
     private void CheckShootTarget()
     {
+        Ray _ray = Camera.main.ViewportPointToRay(new Vector3(0.5f,0.5f));
         RaycastHit _hit;
-        if (Physics.Raycast(FirePoint.position, FirePoint.forward, out _hit, FireRange))
+        if (Physics.Raycast(_ray, out _hit, FireRange))
         {
-            Debug.Log(_hit.transform.name);
+           ZombieAI _zombieAI = _hit.collider.GetComponent<ZombieAI>();
+            for (int i = 0; i < GunMuzzleFlashs.Length; i++)
+            {
+                if (!GunMuzzleFlashs[i].gameObject.activeSelf) continue;
+                DamagePerShot = GunMuzzleFlashs[i].Damage;
+            }
 
-            //apply damage zombie
+            if (_zombieAI != null)
+            {
+                _zombieAI.TakeDamage(DamagePerShot);
+
+                // Play blood effect particle System at the point.
+                ParticleSystem blood = Instantiate(BloodEffect, _hit.point, Quaternion.LookRotation(_hit.normal));
+                Destroy(blood.gameObject, blood.main.duration); // 동작시간 이후 제거
+            }
+            WayPointZobieAI _waypointzombieAI = _hit.collider.GetComponent<WayPointZobieAI>();
+            if (_waypointzombieAI != null)
+            {
+                _waypointzombieAI.TakeDamage(DamagePerShot);
+
+                // Play blood effect particle System at the point.
+                ParticleSystem blood = Instantiate(BloodEffect, _hit.point, Quaternion.LookRotation(_hit.normal));
+                Destroy(blood.gameObject, blood.main.duration); // 동작시간 이후 제거
+            }
         }
     }
 
@@ -77,6 +135,7 @@ public class ShootingController : MonoBehaviour
             //reload anim
             PlayerAnimator.SetTrigger("Reload");
             m_isReloading = true;
+            SoundAudioSource.PlayOneShot(ReloadSoundClip);
             Invoke("FinishReloading", reloadTime); // reloadTime : 애니메이션 시간에 맞게
         }
     }

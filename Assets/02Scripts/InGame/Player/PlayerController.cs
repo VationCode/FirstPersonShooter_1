@@ -1,11 +1,21 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     private CharacterController m_characterController;
-    
+
+    [Header("Player Health & Damage")]
+    private int m_maxHealth = 100;
+    public int CurrentHealth;
+    public Image HealthFillImage;
+    public Image StaminaFillImage;
+
+    public DeathScreen DeathScreenUI;
+
     [Header("Movement & Gravity")]
     public float MoveSpeed = 5f;
+    public float RotateSpeed = 20;
     public float JumpForce = 1.5f;
     public float Gravity = -9.81f;
     public Transform GroundCheckTr;
@@ -27,10 +37,17 @@ public class PlayerController : MonoBehaviour
         m_characterController = GetComponent<CharacterController>();
     }
 
+    private void Start()
+    {
+        CurrentHealth = m_maxHealth;
+        HealthFillImage.fillAmount = CurrentHealth/100;
+        StaminaFillImage.fillAmount = 1;
+    }
     private void Update()
     {
         GroundCheck();
         HandleMovement();
+        HandleRtotate();
 
         HandleGravity();
 
@@ -44,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMovement()
     {
-        if(m_isGrounded && m_velocity.y < 0)
+        if (m_isGrounded && m_velocity.y < 0)
         {
             m_velocity.y = -2f;
         }
@@ -57,7 +74,11 @@ public class PlayerController : MonoBehaviour
 
         m_characterController.Move(_movement * Time.deltaTime * MoveSpeed);
     }
-
+    private void HandleRtotate()
+    {
+        Quaternion _targetRotation = Camera.main.transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, RotateSpeed * Time.deltaTime);
+    }
     private void GroundCheck()
     {
         m_isGrounded = Physics.CheckSphere(GroundCheckTr.position, GroundDistance, GroundMask);
@@ -83,7 +104,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time < m_nextFootstepTime) return;
 
         AudioClip _footstepClip = FootstepSounds[Random.Range(0, FootstepSounds.Length)];
-        if(m_isLeftFootStep)
+        if (m_isLeftFootStep)
         {
             LeftFootAudioSource.PlayOneShot(_footstepClip);
         }
@@ -95,5 +116,25 @@ public class PlayerController : MonoBehaviour
         m_isLeftFootStep = !m_isLeftFootStep;
 
         m_nextFootstepTime = Time.time + FootStepInterval;
+    }
+
+    // TODO : 인터페이스로 전환
+    public void TakeDamage(int damageAmount)
+    {
+        CurrentHealth -= damageAmount;
+        HealthFillImage.fillAmount = (float)CurrentHealth / 100;
+
+        if (CurrentHealth <= 0)
+        {
+            HealthFillImage.fillAmount = 0;
+            CurrentHealth = 0;
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        DeathScreenUI.IsShowDeadScreen = true;
+        Debug.Log("Player has Died");
     }
 }

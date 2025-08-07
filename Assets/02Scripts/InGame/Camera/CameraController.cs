@@ -3,12 +3,13 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public Transform PlayerTransform;
-    public float Sensitivity = 2f;
-    public float MinXAngle = -30f;
-    public float MaxXAngle = 30f;
-    public float MinYAngle = -360f;
-    public float MaxYAngle = 360f;
-    public float SmoothSpeed = 10f;
+    [Tooltip("마우스 감도")]
+    public float Sensitivity = 1f;
+    public float MinXAngle = -60f;
+    public float MaxXAngle = 60f;
+    //public float MinYAngle = -360f;
+    //public float MaxYAngle = 360f;
+    public float SmoothSpeed = 30f;
 
     private float m_rotationX = 0f;
     private float m_rotationY = 0f;
@@ -33,11 +34,10 @@ public class CameraController : MonoBehaviour
         m_rotationY += _mouseX;
 
         m_rotationX = Mathf.Clamp(m_rotationX, MinXAngle, MaxXAngle);
-        m_rotationY = Mathf.Clamp(m_rotationY, MinYAngle, MaxYAngle);
+        //m_rotationY = Mathf.Clamp(m_rotationY, MinYAngle, MaxYAngle);
 
         Quaternion _targetRotation = Quaternion.Euler(m_rotationX, m_rotationY, 0);
-        // TODO : 플레이어 컨트롤러로 옮기기
-        PlayerTransform.rotation = Quaternion.Slerp(PlayerTransform.rotation, _targetRotation, SmoothSpeed * Time.deltaTime);
+
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, SmoothSpeed * Time.deltaTime);
     }
 }
