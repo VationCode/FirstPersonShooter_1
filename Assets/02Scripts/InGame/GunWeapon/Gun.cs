@@ -13,4 +13,7 @@ public class Gun : MonoBehaviour
     public ParticleSystem MuzzleFlash;
     public float Rate;
     public int Damage;
+    public int MaxAmmo;
+    public int CurrentAmmo;
+    public AudioClip SFXClip;
 }

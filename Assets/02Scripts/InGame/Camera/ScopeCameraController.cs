@@ -7,8 +7,6 @@ public class ScopeCameraController : MonoBehaviour
     public float Sensitivity = 1f;
     public float MinXAngle = -60f;
     public float MaxXAngle = 60f;
-    //public float MinYAngle = -360f;
-    //public float MaxYAngle = 360f;
     public float SmoothSpeed = 30f;
 
     private float m_rotationX = 0f;
@@ -34,7 +32,6 @@ public class ScopeCameraController : MonoBehaviour
         m_rotationY += _mouseX;
 
         m_rotationX = Mathf.Clamp(m_rotationX, MinXAngle, MaxXAngle);
-        //m_rotationY = Mathf.Clamp(m_rotationY, MinYAngle, MaxYAngle);
 
         Quaternion _targetRotation = Quaternion.Euler(m_rotationX, m_rotationY, 0);
 

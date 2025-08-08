@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public Gun[] GunWeapons;
+    public Gun[] Guns;
 
     public int HighScore;
     public int CurrentScore;
@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI CurrentScoreTMP;
     [SerializeField]
     private int m_currentWeaponIndex = 0;
+    public int CurrentWeaponIndex => m_currentWeaponIndex;
     private void Awake()
     {
         Instance = this;
@@ -58,8 +59,8 @@ public class GameManager : MonoBehaviour
 
     private void SwitchWeapon(int newIndex)
     {
-        GunWeapons[m_currentWeaponIndex].gameObject.SetActive(false);
-        GunWeapons[newIndex].gameObject.SetActive(true);
+        Guns[m_currentWeaponIndex].gameObject.SetActive(false);
+        Guns[newIndex].gameObject.SetActive(true);
         m_currentWeaponIndex = newIndex;
     }
 }

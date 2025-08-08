@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ScopeSystem : MonoBehaviour
 {
-    [SerializeField] Gun m_sinper;
     public GameObject PlayerUICanvas;
     public GameObject ScopeCanvas;
     public float ZoomMagnification = 2f;    // πË¿≤
@@ -13,7 +12,7 @@ public class ScopeSystem : MonoBehaviour
 
     private void Update()
     {
-        if(m_sinper.gameObject.activeInHierarchy == true) Scope();
+        if (GameManager.Instance.Guns[1].gameObject.activeInHierarchy == true) Scope();
     }
 
     private void Scope()
