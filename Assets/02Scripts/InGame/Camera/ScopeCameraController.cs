@@ -18,6 +18,11 @@ public class ScopeCameraController : MonoBehaviour
         Cursor.visible = false;
     }
 
+    private void OnEnable()
+    {
+        transform.rotation = Camera.main.transform.rotation;
+    }
+
     private void Update()
     {
         RotationCam();

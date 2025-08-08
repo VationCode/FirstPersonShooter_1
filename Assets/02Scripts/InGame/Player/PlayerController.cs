@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     private void HandleRtotate()
     {
         Camera _currentCamera = Cameras[0].gameObject.activeInHierarchy? Cameras[0]:Cameras[1];
+
         Quaternion _targetRotation = _currentCamera.transform.rotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, RotateSpeed * Time.deltaTime);
     }

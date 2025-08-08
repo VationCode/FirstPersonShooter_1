@@ -5,14 +5,13 @@ public class ScopeSystem : MonoBehaviour
     public GameObject PlayerUICanvas;
     public GameObject ScopeCanvas;
     public float ZoomMagnification = 2f;    // πË¿≤
-    public Camera MainCamera;
-    public Camera ScopeCamera;
+    public Camera[] Cameras;
     private bool m_isScoped = false;
     private float m_originalFOV;
 
     private void Update()
     {
-        if (GameManager.Instance.Guns[1].gameObject.activeInHierarchy == true) Scope();
+        if (GameManager.Instance.CurrentWeaponIndex == 1) Scope();
     }
 
     private void Scope()
@@ -25,20 +24,18 @@ public class ScopeSystem : MonoBehaviour
             PlayerUICanvas.SetActive(!m_isScoped);
             if (m_isScoped)
             {
-                MainCamera.gameObject.SetActive(false);
-                ScopeCamera.gameObject.SetActive(true);
+                Cameras[0].gameObject.SetActive(false);
+                Cameras[1].gameObject.SetActive(true);
 
-                ScopeCamera.enabled = true;
-                m_originalFOV = ScopeCamera.fieldOfView;
-                ScopeCamera.fieldOfView /= ZoomMagnification;
+                m_originalFOV = Cameras[1].fieldOfView;
+                Cameras[1].fieldOfView /= ZoomMagnification;
             }
             else
             {
-                MainCamera.gameObject.SetActive(true);
-                ScopeCamera.gameObject.SetActive(false);
-                
-                ScopeCamera.enabled = false;
-                ScopeCamera.fieldOfView = m_originalFOV;
+                Cameras[0].gameObject.SetActive(true);
+                Cameras[1].gameObject.SetActive(false);
+
+                Cameras[1].fieldOfView = m_originalFOV;
             }
         }
 
@@ -46,8 +43,8 @@ public class ScopeSystem : MonoBehaviour
         if(m_isScoped)
         {
             float _zoom = Input.GetAxis("Mouse ScrollWheel");
-            ScopeCamera.fieldOfView -= _zoom * ZoomMagnification * 10f;
-            ScopeCamera.fieldOfView = Mathf.Clamp(ScopeCamera.fieldOfView,10f, 80f);
+            Cameras[1].fieldOfView -= _zoom * ZoomMagnification * 10f;
+            Cameras[1].fieldOfView = Mathf.Clamp(Cameras[1].fieldOfView,10f, 80f);
         }
     }
 }
