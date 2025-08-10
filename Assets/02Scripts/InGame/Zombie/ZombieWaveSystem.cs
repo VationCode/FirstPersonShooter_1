@@ -13,10 +13,12 @@ public class ZombieWaveSystem : MonoBehaviour
     private float m_waveTimer = 0f;
     public TextMeshProUGUI WaveTimerTMP;
     private int m_waveNumver = 1;
-    public int ZombiesPerWave = 4;  //한 웨이브당
+    public int ZombiePerWave = 4;  //한 웨이브당
 
     private void Start()
     {
+        LoadSeetings();
+
         WaveTimerTMP.text = "10";
         WaveNumTMP.text = m_waveNumver.ToString() + " / " + LastWaveNum.ToString();
     }
@@ -37,11 +39,11 @@ public class ZombieWaveSystem : MonoBehaviour
     private void StartNewWave()
     {
         m_waveTimer = 0;
-        ZombiesPerWave += 2;
+        ZombiePerWave += 2;
 
         float _minDistance = 4f;
 
-        for(int i = 0; i < ZombiesPerWave; i++)
+        for(int i = 0; i < ZombiePerWave; i++)
         {
             int _randomSpawnIndex = Random.Range(0, SpawnPoints.Length);
             
@@ -58,5 +60,18 @@ public class ZombieWaveSystem : MonoBehaviour
         }
         m_waveNumver++;
         WaveNumTMP.text = m_waveNumver.ToString() + " / " + LastWaveNum.ToString();
+    }
+
+    private void LoadSeetings()
+    {
+        if (PlayerPrefs.HasKey("TimeBetweenWaves"))
+        {
+            TimeBetweenWaves = PlayerPrefs.GetFloat("TimeBetweenWaves");
+        }
+
+        if (PlayerPrefs.HasKey("ZombiePerWave"))
+        {
+            ZombiePerWave = PlayerPrefs.GetInt("ZombiePerWave");
+        }
     }
 }

@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        LoadSettings();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -36,5 +37,18 @@ public class CameraController : MonoBehaviour
         Quaternion _targetRotation = Quaternion.Euler(m_rotationX, m_rotationY, 0);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, SmoothSpeed * Time.deltaTime);
+    }
+    private void LoadSettings()
+    {
+        if (PlayerPrefs.HasKey("SmoothSpeed"))
+        {
+            SmoothSpeed = PlayerPrefs.GetFloat("SmoothSpeed");
+        }
+
+        if (PlayerPrefs.HasKey("Sensitivity"))
+        {
+            Sensitivity = PlayerPrefs.GetFloat("Sensitivity");
+
+        }
     }
 }

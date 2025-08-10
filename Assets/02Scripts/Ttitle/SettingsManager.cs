@@ -63,9 +63,9 @@ public class SettingsManager : MonoBehaviour
             m_timeBetweenWaves = PlayerPrefs.GetFloat("TimeBetweenWaves");
         }
 
-        if(PlayerPrefs.HasKey("ZombiesPerWave"))
+        if(PlayerPrefs.HasKey("ZombiePerWave"))
         {
-            m_zombiePerWave = PlayerPrefs.GetInt("ZombiesPerWave");
+            m_zombiePerWave = PlayerPrefs.GetInt("ZombiePerWave");
         }
 
         if(PlayerPrefs.HasKey("SmoothSpeed"))
@@ -92,7 +92,7 @@ public class SettingsManager : MonoBehaviour
         m_sensitivity = SensitivitySlider.value;
 
         PlayerPrefs.SetFloat("TimeBetweenWaves", m_timeBetweenWaves);
-        PlayerPrefs.SetInt("ZombiesPerWave",m_zombiePerWave);
+        PlayerPrefs.SetInt("ZombiePerWave",m_zombiePerWave);
         PlayerPrefs.SetFloat("SmoothSpeed", m_smoothSpeed);
         PlayerPrefs.SetFloat("Sensitivity", m_sensitivity);
 
