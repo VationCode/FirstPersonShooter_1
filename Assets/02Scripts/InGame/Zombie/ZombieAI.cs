@@ -26,12 +26,19 @@ public class ZombieAI : MonoBehaviour
     public float StandChaseSpeed = 0.5f;
     public float RunningCrawlSpeed = 3.0f;
     public float ChaseDistance = 10;
-    public float AttackDistnace = 2f;
+    public float AttackDistnace = 3f;
     public float AttackCooldown = 2f;
     public float AttackeDelay = 2.4f;
     public int Damage = 10;
     public int Health = 100;
     public CapsuleCollider ZombieCapsuleCollider;
+    public AudioSource ZombieAudioSource;
+    
+    public AudioClip IdleAudioClip;
+    public AudioClip ChaseAudioClip;
+    public AudioClip AttackAudioClip;
+    public AudioClip DeathAudioClip;
+
     private bool m_isAttacking;
     private float m_lastAttackTime;
 
@@ -49,11 +56,17 @@ public class ZombieAI : MonoBehaviour
         NavAgent = GetComponent<NavMeshAgent>();
         ZombieCapsuleCollider = GetComponent<CapsuleCollider>();
         ZombieAnimator = GetComponentInChildren<Animator>();
+        ZombieAudioSource = GetComponent<AudioSource>();
     }
     private void Start()
     {
         m_lastAttackTime = -AttackCooldown;
         m_currentSpeed = StandChaseSpeed;
+        ZombieAudioSource.loop = true;
+        if (ZombieAudioSource.clip != IdleAudioClip)
+            ZombieAudioSource.clip = IdleAudioClip;
+
+        ZombieAudioSource.Play();
     }
 
     private void Update()
@@ -67,11 +80,22 @@ public class ZombieAI : MonoBehaviour
         {
             case ZobieState.Idle:
                 // Animations
+                if(ZombieAudioSource.clip != IdleAudioClip)
+                    ZombieAudioSource.clip = IdleAudioClip;
+
                 ZombieAnimator.SetBool("IsWalking", false);
                 ZombieAnimator.SetBool("IsAttacking", false);
                 // Checked Chase Distance
                 if (Vector3.Distance(transform.position, Player.position) <= ChaseDistance)
+                {
                     CurrentState = ZobieState.Chase;
+                    if(ZombieAudioSource.clip != ChaseAudioClip)
+                    {
+                        ZombieAudioSource.clip = ChaseAudioClip;
+                        ZombieAudioSource.Play();
+
+                    }
+                }
                 break;
             case ZobieState.Chase:
                 // Animations
@@ -83,7 +107,14 @@ public class ZombieAI : MonoBehaviour
                 NavAgent.speed = m_currentSpeed;
                 NavAgent.SetDestination(Player.position);
                 if(Vector3.Distance(transform.position, Player.position) <= AttackDistnace)
+                {
                     CurrentState = ZobieState.Attack;
+                    if (ZombieAudioSource.clip != AttackAudioClip)
+                    {
+                        ZombieAudioSource.clip = AttackAudioClip;
+                        ZombieAudioSource.Play();
+                    }
+                }
                 break;
             case ZobieState.Attack:
                 // Animations
@@ -103,7 +134,14 @@ public class ZombieAI : MonoBehaviour
                     StartCoroutine(ActivateBloodScreenEffect());
                 }
                 if (Vector3.Distance(transform.position, Player.position) > AttackDistnace)
+                {
                     CurrentState = ZobieState.Chase;
+                    if(ZombieAudioSource.clip != ChaseAudioClip)
+                    {
+                        ZombieAudioSource.clip = ChaseAudioClip;
+                        ZombieAudioSource.Play();
+                    }
+                }
                 break;
             case ZobieState.Dead:
                 // Dead상태는 슈팅컨트롤러에서 TakeDamage함수로 변환
@@ -118,6 +156,12 @@ public class ZombieAI : MonoBehaviour
                 enabled = false;
                 //increase score
                 GameManager.Instance.CurrentScore += 1;
+                ZombieAudioSource.clip = DeathAudioClip;
+                ZombieAudioSource.loop = false;
+                if (!ZombieAudioSource.isPlaying)
+                {
+                    ZombieAudioSource.Play();
+                }
                 break;
         }
     }

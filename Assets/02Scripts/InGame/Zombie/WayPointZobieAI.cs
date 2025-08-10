@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class WayPointZobieAI : MonoBehaviour
 {
     public NavMeshAgent NavAgent;
-     public enum ZobieState
+    public enum ZobieState
     {
         Patrol,
         Chase,  // ÃßÀû
@@ -17,12 +17,17 @@ public class WayPointZobieAI : MonoBehaviour
     public Transform Player;
     public Animator ZombieAnimator;
     public float ChaseDistance = 10;
-    public float AttackDistnace = 2f;
+    public float AttackDistnace = 3f;
     public float AttackCooldown = 2f;
     public float AttackeDelay = 1.5f;
     public int Damage = 10;
     public int Health = 100;
     public CapsuleCollider ZombieCapsuleCollider;
+    public AudioSource ZombieAudioSource;
+    public AudioClip IdleAudioClip;
+    public AudioClip ChaseAudioClip;
+    public AudioClip AttackAudioClip;
+    public AudioClip DeathAudioClip;
     private bool m_isMoving = false;
     private bool m_isAttacking;
     private float m_lastAttackTime;
@@ -36,6 +41,7 @@ public class WayPointZobieAI : MonoBehaviour
         if (_playerObj != null) Player = _playerObj.transform;
         else Debug.Log("Player obj not found!");
 
+        ZombieAudioSource = GetComponent<AudioSource>();
         NavAgent = GetComponent<NavMeshAgent>();
         ZombieCapsuleCollider = GetComponent<CapsuleCollider>();
         ZombieAnimator = GetComponentInChildren<Animator>();
@@ -43,6 +49,10 @@ public class WayPointZobieAI : MonoBehaviour
     private void Start()
     {
         m_lastAttackTime = -AttackCooldown;
+        ZombieAudioSource.loop = true;
+        if (ZombieAudioSource.clip != IdleAudioClip)
+            ZombieAudioSource.clip = IdleAudioClip;
+        ZombieAudioSource.Play();
     }
 
     private void Update()
@@ -58,26 +68,46 @@ public class WayPointZobieAI : MonoBehaviour
                 if (!m_isMoving || NavAgent.remainingDistance < 0.1f)
                 {
                     Patrol();
+                    if (ZombieAudioSource.clip != IdleAudioClip)
+                    {
+                        ZombieAudioSource.clip = IdleAudioClip;
+                        ZombieAudioSource.Play();
+                    }
                 }
                 if (IsPlayerInRange(ChaseDistance))
                 {
                     CurrentState = ZobieState.Chase;
+                    if (ZombieAudioSource.clip != ChaseAudioClip)
+                    {
+                        ZombieAudioSource.clip = ChaseAudioClip;
+                        ZombieAudioSource.Play();
+                    }
                 }
                 break;
             case ZobieState.Chase:
                 ChasePlayer();
-                
+
                 if (IsPlayerInRange(AttackDistnace))
                 {
                     CurrentState = ZobieState.Attack;
+                    if (ZombieAudioSource.clip != AttackAudioClip)
+                    {
+                        ZombieAudioSource.clip = AttackAudioClip;
+                        ZombieAudioSource.Play();
+                    }
                 }
                 break;
             case ZobieState.Attack:
                 AttackPlayer();
-                
+
                 if (!IsPlayerInRange(AttackDistnace))
                 {
                     CurrentState = ZobieState.Chase;
+                    if (ZombieAudioSource.clip != ChaseAudioClip)
+                    {
+                        ZombieAudioSource.clip = ChaseAudioClip;
+                        ZombieAudioSource.Play();
+                    }
                 }
 
                 break;
@@ -88,6 +118,12 @@ public class WayPointZobieAI : MonoBehaviour
                 enabled = false;
                 //increase score
                 GameManager.Instance.CurrentScore += 1;
+                if (ZombieAudioSource.clip != DeathAudioClip)
+                {
+                    ZombieAudioSource.clip = DeathAudioClip;
+                    ZombieAudioSource.loop = false;
+                    ZombieAudioSource.Play();
+                }
                 break;
         }
     }
@@ -133,7 +169,7 @@ public class WayPointZobieAI : MonoBehaviour
     private void AttackPlayer()
     {
         NavAgent.SetDestination(transform.position);
-        if(!m_isAttacking && Time.time - m_lastAttackTime >= AttackCooldown)
+        if (!m_isAttacking && Time.time - m_lastAttackTime >= AttackCooldown)
         {
             StartCoroutine(AttackWithDelay());
             StartCoroutine(ActivateBloodScreenEffect());

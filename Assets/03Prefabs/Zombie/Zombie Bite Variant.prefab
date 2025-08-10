@@ -9,13 +9,41 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: IdleAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a567ed8b03f9f94985c13dd742acc1f, type: 3}
+    - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: AttackDistnace
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: ChaseAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 48ea4e33813ff1d4683d06047258a797, type: 3}
+    - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: DeathAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a3ca581d9c46f7544babf9b09ea812aa, type: 3}
+    - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
       propertyPath: ZombieAnimator
       value: 
       objectReference: {fileID: 8394935749782632230}
     - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: AttackAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bca98ed7e9c3f4c40be22db8798e8de3, type: 3}
+    - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
       propertyPath: StandChaseSpeed
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1091204637732453920, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a567ed8b03f9f94985c13dd742acc1f, type: 3}
+    - target: {fileID: 1091204637732453920, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1a567ed8b03f9f94985c13dd742acc1f, type: 3}
     - target: {fileID: 3206946122152373017, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
       propertyPath: m_Radius
       value: 0.3

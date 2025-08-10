@@ -144,6 +144,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3304476437887888789, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}
+      propertyPath: MaxDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304476437887888789, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355902731054785782, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}
+      propertyPath: IdleAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 196f655e35a13764fa31dfcacc49ff99, type: 3}
+    - target: {fileID: 3355902731054785782, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}
+      propertyPath: DeathAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 052f801baa1b13546af88ca5baa77564, type: 3}
+    - target: {fileID: 3355902731054785782, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}
+      propertyPath: ZombieAnimator
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355902731054785782, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}
+      propertyPath: AttackAudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: e14698196c12b234694cac8614f75938, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 3588562571354918887, guid: 930c81db260b89d4e9c435462d7a8b0f, type: 3}

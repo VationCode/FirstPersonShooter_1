@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.Purchasing;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class SettingsManager : MonoBehaviour
 {
     public Button NormalDifficultyButton;
@@ -16,14 +17,29 @@ public class SettingsManager : MonoBehaviour
     private int m_zombiePerWave;
 
 
-    [SerializeField] float m_smoothSpeed;
-    [SerializeField] float m_sensitivity;
+    [SerializeField] 
+    float m_smoothSpeed;
+    [SerializeField] 
+    float m_sensitivity;
+
+    public Button Map1Button;
+    public Button Map2Button;
+    public Button ContinueButton;
+
+    private string m_selectedMap;
     private void Awake()
     {
         LoadSettings();
 
         NormalDifficultyButton.onClick.AddListener(SetNormalDifficulty);
         HardDifficultyButton.onClick.AddListener(SetHardDifficulty);
+
+        Map1Button.onClick.AddListener(() => SelectMap("InGame"));
+
+        if(Map2Button != null)
+            Map2Button.onClick.AddListener(() => SelectMap("InGame2"));
+
+        ContinueButton.onClick.AddListener(LoadSelectedMap);
 
         SaveButton.onClick.AddListener(SaveSettings);
     }
@@ -64,6 +80,10 @@ public class SettingsManager : MonoBehaviour
             SensitivitySlider.value = m_sensitivity;
 
         }
+        if (PlayerPrefs.HasKey("SelectedMap"))
+        {
+            m_selectedMap = PlayerPrefs.GetString("SelectedMap");
+        }
     }
 
     public void SaveSettings()
@@ -88,5 +108,17 @@ public class SettingsManager : MonoBehaviour
     {
         m_timeBetweenWaves = 7;
         m_zombiePerWave = 8;
+    }
+
+    private void SelectMap(string mapName)
+    {
+        m_selectedMap = mapName;
+
+        PlayerPrefs.SetString("SelectedMap", m_selectedMap);
+    }
+
+    public void LoadSelectedMap()
+    {
+        SceneManager.LoadScene(m_selectedMap);
     }
 }
