@@ -29,7 +29,7 @@ public class ZombieAI : MonoBehaviour
     public float AttackDistnace = 3f;
     public float AttackCooldown = 2f;
     public float AttackeDelay = 2.4f;
-    public int Damage = 10;
+    public int Damage = 2;
     public int Health = 100;
     public CapsuleCollider ZombieCapsuleCollider;
     public AudioSource ZombieAudioSource;

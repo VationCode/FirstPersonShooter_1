@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
+      propertyPath: Damage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 602102649459325408, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
       propertyPath: IdleAudioClip
       value: 
       objectReference: {fileID: 8300000, guid: 1a567ed8b03f9f94985c13dd742acc1f, type: 3}
@@ -43,7 +47,7 @@ PrefabInstance:
     - target: {fileID: 1091204637732453920, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 1a567ed8b03f9f94985c13dd742acc1f, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 3206946122152373017, guid: 9dcf1db43993bde46a27a641cd54d2bb, type: 3}
       propertyPath: m_Radius
       value: 0.3

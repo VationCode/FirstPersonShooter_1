@@ -20,7 +20,7 @@ public class WayPointZobieAI : MonoBehaviour
     public float AttackDistnace = 3f;
     public float AttackCooldown = 2f;
     public float AttackeDelay = 1.5f;
-    public int Damage = 10;
+    public int Damage = 2;
     public int Health = 100;
     public CapsuleCollider ZombieCapsuleCollider;
     public AudioSource ZombieAudioSource;
@@ -219,7 +219,6 @@ public class WayPointZobieAI : MonoBehaviour
         ZombieAnimator.SetBool("IsAttacking", false);
         ZombieAnimator.SetBool("IsDead", true);
 
-        Debug.Log("Player has Died");
         CurrentState = ZobieState.Dead;
     }
 

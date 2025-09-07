@@ -136,7 +136,7 @@ MonoBehaviour:
   AttackDistnace: 3
   AttackCooldown: 2
   AttackeDelay: 2.4
-  Damage: 10
+  Damage: 2
   Health: 100
   ZombieCapsuleCollider: {fileID: 3206946122152373017}
   ZombieAudioSource: {fileID: 1091204637732453920}
@@ -155,7 +155,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 196f655e35a13764fa31dfcacc49ff99, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 196f655e35a13764fa31dfcacc49ff99, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3

@@ -45,13 +45,13 @@ public class SettingsManager : MonoBehaviour
     }
     private void Start()
     {
-        SmoothSpeedSlider.minValue = 1f;
-        SmoothSpeedSlider.maxValue = 10f;
-        m_smoothSpeed = 10f;
+        SmoothSpeedSlider.minValue = 25f;
+        SmoothSpeedSlider.maxValue = 50f;
+        m_smoothSpeed = 30f;
 
-        SensitivitySlider.minValue = 1f;
-        SensitivitySlider.maxValue = 10f;
-        m_sensitivity = 2f;
+        SensitivitySlider.minValue = 0f;
+        SensitivitySlider.maxValue = 2f;
+        m_sensitivity = 0.5f;
 
         SetNormalDifficulty();
     }

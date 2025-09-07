@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 617822764864700165}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000044703473, y: -0.000000014901158, z: 0.00000005960463, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -48,9 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunTypeE: 0
   MuzzleFlash: {fileID: 7672613399295525566}
-  Rate: 0
-  Damage: 0
-  SFXClip: {fileID: 0}
+  Rate: 0.1
+  Damage: 20
+  MaxAmmo: 30
+  CurrentAmmo: 0
+  SFXClip: {fileID: 8300000, guid: cd744db8b3595cc448a4c61370db720f, type: 3}
 --- !u!1 &4590446427885800049
 GameObject:
   m_ObjectHideFlags: 0

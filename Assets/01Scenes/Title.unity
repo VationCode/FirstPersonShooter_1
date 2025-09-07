@@ -297,8 +297,8 @@ MonoBehaviour:
   SaveButton: {fileID: 351642386607453118}
   m_timeBetweenWaves: 0
   m_zombiePerWave: 0
-  m_smoothSpeed: 0
-  m_sensitivity: 0
+  m_smoothSpeed: 30
+  m_sensitivity: 0.5
   Map1Button: {fileID: 351642386607453120}
   Map2Button: {fileID: 351642386607453119}
   ContinueButton: {fileID: 447154390}
